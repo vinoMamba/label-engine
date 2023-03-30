@@ -1,6 +1,11 @@
 import Head from 'next/head'
+import { registerConfig } from '@/core/registerConfig'
+import { labelSchema } from '@/core/schema'
+import { useState } from 'react'
+import { Schema } from '@/types/type'
 
 export default function Home() {
+  const [schema, setSchema] = useState<Schema>(labelSchema)
   return (
     <>
       <Head>
@@ -9,8 +14,32 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className='flex bg-red'>
-        <h1>label engine</h1>
+      <main className='h-screen'>
+        <header className='h-72 border border-solid border-b-blue flex justify-center items-center'>自定义标签画板</header>
+        <div className='flex  h[calc(100vh-72px)]'>
+          <section className='p-16 pt-0 w-200'>
+            <p className='text-18 font-700'>控件库</p>
+            <ul>
+              {registerConfig.materials.map((material) => (
+                <li key={material.type}>
+                  <material.preview />
+                </li>
+              ))}
+            </ul>
+          </section>
+          <section className='h[calc(100vh-72px)] flex-1 bg-#f0f0f0 overflow-auto flex justify-center items-center'>
+            <div
+              className='bg-white'
+              style={{
+                width: `${schema.container.width}mm`,
+                height: `${schema.container.height}mm`,
+              }}
+            >
+
+            </div>
+          </section>
+          <section className='w-200'>设置器</section>
+        </div>
       </main>
     </>
   )
