@@ -1,15 +1,17 @@
+import { ReactNode } from "react";
+
 export type MaterialType = 'qrCode' | 'field' | 'logo' | 'customText';
 
 export interface Material {
   type: MaterialType;
   name: string;
-  preview: any;
-  renderInstance: (props?: any) => JSX.Element;
+  preview: () => JSX.Element;
+  renderInstance: () => JSX.Element;
 }
 
 export interface Block {
   id: number;
-  type: Material,
+  type: MaterialType,
   focus: boolean;
   options: {
     top: number;

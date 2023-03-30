@@ -1,11 +1,45 @@
 import Head from 'next/head'
 import { registerConfig } from '@/core/registerConfig'
 import { labelSchema } from '@/core/schema'
-import { useState } from 'react'
-import { Schema } from '@/types/type'
+import { DragEventHandler, useRef, useState } from 'react'
+import { Block, Material, Schema } from '@/types/type'
+import { BlockItem } from '@/components/Block'
 
 export default function Home() {
   const [schema, setSchema] = useState<Schema>(labelSchema)
+  const currentMaterial = useRef<Material>()
+
+  const handleDragStart = (material: Material) => {
+    currentMaterial.current = material
+  }
+  const handleDragEnter: DragEventHandler<HTMLDivElement> = (e) => {
+    e.dataTransfer.dropEffect = 'move'
+  }
+
+  const handleDragLeave: DragEventHandler<HTMLDivElement> = (e) => {
+    e.dataTransfer.dropEffect = 'none'
+  }
+
+  const handleDrop: DragEventHandler<HTMLDivElement> = (e) => {
+    const { offsetX, offsetY } = e.nativeEvent
+    const block: Block = {
+      id: Date.now(),
+      type: currentMaterial.current!.type,
+      focus: false,
+      options: {
+        top: offsetY,
+        left: offsetX,
+        width: 100,
+        height: 100,
+      }
+    }
+    setSchema((schema) => {
+      schema.blocks.push(block)
+      return {
+        ...schema
+      }
+    })
+  }
   return (
     <>
       <Head>
@@ -21,7 +55,7 @@ export default function Home() {
             <p className='text-18 font-700'>控件库</p>
             <ul>
               {registerConfig.materials.map((material) => (
-                <li key={material.type}>
+                <li key={material.type} draggable onDragStart={() => handleDragStart(material)}>
                   <material.preview />
                 </li>
               ))}
@@ -29,13 +63,17 @@ export default function Home() {
           </section>
           <section className='h[calc(100vh-72px)] flex-1 bg-#f0f0f0 overflow-auto flex justify-center items-center'>
             <div
-              className='bg-white'
+              onDragEnter={handleDragEnter}
+              onDragOver={e => e.preventDefault()}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+              className='bg-white relative'
               style={{
                 width: `${schema.container.width}mm`,
                 height: `${schema.container.height}mm`,
               }}
             >
-
+              {schema.blocks.map((block, index) => <BlockItem key={index} block={block} />)}
             </div>
           </section>
           <section className='w-200'>设置器</section>
