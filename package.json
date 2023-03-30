@@ -18,5 +18,10 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "5.0.2"
+  },
+  "devDependencies": {
+    "@types/typescript": "^2.0.0",
+    "@unocss/webpack": "^0.50.6",
+    "unocss": "^0.50.6"
   }
 }
