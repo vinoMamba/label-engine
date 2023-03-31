@@ -1,4 +1,5 @@
 import { registerConfig } from "@/core/registerConfig"
+import { useScaleStore } from "@/store/useScaleStore"
 import { useSchemaStore } from "@/store/useSchemaStore"
 import { Block } from "@/types/type"
 import { FC, useRef, MouseEventHandler } from "react"
@@ -7,6 +8,7 @@ type Props = {
   block: Block
 }
 export const BlockItem: FC<Props> = (props) => {
+  const scale =useScaleStore((state) => state.scale)
   const [updateBlock, clearAllFocus] = useSchemaStore((state) => [state.updateBlock, state.clearAllFocus])
   const blockRef = useRef<HTMLDivElement>(null)
   const Material = registerConfig.materialsMap.get(props.block.type)
@@ -26,13 +28,14 @@ export const BlockItem: FC<Props> = (props) => {
     const { clientX, clientY } = e
     function blockMouseMove(e: MouseEvent) {
       const { clientX: moveX, clientY: moveY } = e
+      console.log(moveX, moveY)
       const newBlock = {
         ...props.block,
         focus: true,
         options: {
           ...props.block.options,
-          top: props.block.options.top + moveY - clientY,
-          left: props.block.options.left + moveX - clientX
+          top: props.block.options.top + (moveY - clientY)/scale,
+          left: props.block.options.left + (moveX - clientX)/scale,
         }
       }
       updateBlock(newBlock)
@@ -53,7 +56,7 @@ export const BlockItem: FC<Props> = (props) => {
     <div
       onMouseDown={handleMouseDown}
       ref={blockRef}
-      className="absolute"
+      className="absolute p-4 bg-red"
       style={{
         border: props.block.focus ? '1px solid #1890ff' : '1px solid #f0f0f0',
         top: props.block.options.top,

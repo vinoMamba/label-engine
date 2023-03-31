@@ -1,11 +1,14 @@
 import Head from 'next/head'
 import { registerConfig } from '@/core/registerConfig'
 import { DragEventHandler, useRef } from 'react'
-import { Block, Material, Schema } from '@/types/type'
+import { Block, Material } from '@/types/type'
 import { BlockItem } from '@/components/Block'
 import { useSchemaStore } from '@/store/useSchemaStore'
+import { StepCounter } from '@/components/StepCounter'
+import { useScaleStore } from '@/store/useScaleStore'
 
 export default function Home() {
+  const scale = useScaleStore((state) => state.scale)
   const [schema, pushBlock] = useSchemaStore((state) => [state.schema, state.pushBlock])
   const currentMaterial = useRef<Material>()
 
@@ -56,7 +59,10 @@ export default function Home() {
               ))}
             </ul>
           </section>
-          <section className='h[calc(100vh-72px)] flex-1 bg-#f0f0f0 overflow-auto flex justify-center items-center'>
+          <section className='relative h[calc(100vh-72px)] flex-1 bg-#f0f0f0 overflow-auto flex justify-center items-center'>
+            <div className='absolute right-20 top-20 flex gap-8 z-10'>
+              <StepCounter />
+            </div>
             <div
               onDragEnter={handleDragEnter}
               onDragOver={e => e.preventDefault()}
@@ -67,6 +73,7 @@ export default function Home() {
               style={{
                 width: `${schema.container.width}mm`,
                 height: `${schema.container.height}mm`,
+                transform: `scale(${scale})`,
               }}
             >
               {schema.blocks.map((block, index) => <BlockItem key={index} block={block} />)}
