@@ -23,7 +23,6 @@ export const BlockItem: FC<Props> = (props) => {
   }
 
   const handleMouseMove: MouseEventHandler<HTMLDivElement> = (e) => {
-    console.log(props.block.focus)
     const { clientX, clientY } = e
     function blockMouseMove(e: MouseEvent) {
       const { clientX: moveX, clientY: moveY } = e

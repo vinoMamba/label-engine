@@ -6,7 +6,7 @@ import { BlockItem } from '@/components/Block'
 import { useSchemaStore } from '@/store/useSchemaStore'
 
 export default function Home() {
-  const [schema,pushBlock] = useSchemaStore((state) => [state.schema, state.pushBlock])
+  const [schema, pushBlock] = useSchemaStore((state) => [state.schema, state.pushBlock])
   const currentMaterial = useRef<Material>()
 
   const handleDragStart = (material: Material) => {
@@ -62,6 +62,7 @@ export default function Home() {
               onDragOver={e => e.preventDefault()}
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
+              onMouseDown={() => useSchemaStore.getState().clearAllFocus()}
               className='bg-white relative'
               style={{
                 width: `${schema.container.width}mm`,
