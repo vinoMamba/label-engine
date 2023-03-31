@@ -28,3 +28,8 @@ export interface Schema {
   };
   blocks: Block[];
 }
+
+export interface MarkLine {
+  x: number;
+  y: number;
+}

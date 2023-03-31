@@ -48,6 +48,5 @@ export const useSchemaStore = create<State & Actions>((set) => ({
         blocks
       }
     }
-  }))
-
+  })),
 }))

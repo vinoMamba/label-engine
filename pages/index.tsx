@@ -6,10 +6,12 @@ import { BlockItem } from '@/components/Block'
 import { useSchemaStore } from '@/store/useSchemaStore'
 import { StepCounter } from '@/components/StepCounter'
 import { useScaleStore } from '@/store/useScaleStore'
+import { useMarkLineStore } from '@/store/useMarkLineStore'
 
 export default function Home() {
   const scale = useScaleStore((state) => state.scale)
   const [schema, pushBlock] = useSchemaStore((state) => [state.schema, state.pushBlock])
+  const [markLine] = useMarkLineStore((state) => [state.markLine])
   const currentMaterial = useRef<Material>()
 
   const handleDragStart = (material: Material) => {
@@ -32,8 +34,8 @@ export default function Home() {
       options: {
         top: offsetY,
         left: offsetX,
-        width: 100,
-        height: 100,
+        width: 0,
+        height: 0,
       }
     }
     pushBlock(block)
@@ -63,6 +65,11 @@ export default function Home() {
             <div className='absolute right-20 top-20 flex gap-8 z-10'>
               <StepCounter />
             </div>
+            <div className='absolute left-20 top-20 flex flex-col gap-8 z-10'>
+              {schema.blocks.map((block) => (
+                <div key={block.id}>{JSON.stringify(block)}</div>
+              ))}
+            </div>
             <div
               onDragEnter={handleDragEnter}
               onDragOver={e => e.preventDefault()}
@@ -77,6 +84,12 @@ export default function Home() {
               }}
             >
               {schema.blocks.map((block, index) => <BlockItem key={index} block={block} />)}
+              {markLine.x !== 0 && (
+                <div style={{ left: markLine.x }} className='absolute top-0 bottom-0 border-1 border-l-dashed border-blue'></div>
+              )}
+              {markLine.y !== 0 && (
+                <div style={{ top: markLine.y }} className='absolute left-0 right-0 border-1 border-t-dashed border-blue'></div>
+              )}
             </div>
           </section>
           <section className='w-200'>设置器</section>
