@@ -1,12 +1,12 @@
 import Head from 'next/head'
 import { registerConfig } from '@/core/registerConfig'
-import { labelSchema } from '@/core/schema'
-import { DragEventHandler, useRef, useState } from 'react'
+import { DragEventHandler, useRef } from 'react'
 import { Block, Material, Schema } from '@/types/type'
 import { BlockItem } from '@/components/Block'
+import { useSchemaStore } from '@/store/useSchemaStore'
 
 export default function Home() {
-  const [schema, setSchema] = useState<Schema>(labelSchema)
+  const [schema,pushBlock] = useSchemaStore((state) => [state.schema, state.pushBlock])
   const currentMaterial = useRef<Material>()
 
   const handleDragStart = (material: Material) => {
@@ -33,12 +33,7 @@ export default function Home() {
         height: 100,
       }
     }
-    setSchema((schema) => {
-      schema.blocks.push(block)
-      return {
-        ...schema
-      }
-    })
+    pushBlock(block)
   }
   return (
     <>
