@@ -136,7 +136,7 @@ export const BlockItem: FC<Props> = (props) => {
     <div
       onMouseDown={handleMouseDown}
       ref={blockRef}
-      className="absolute p-16 bg-red"
+      className="absolute"
       style={{
         border: props.block.focus ? '1px solid #1890ff' : '1px solid #f0f0f0',
         top: props.block.options.top,
