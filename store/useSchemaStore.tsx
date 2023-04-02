@@ -8,6 +8,7 @@ type State = {
 type Actions = {
   updateSchema: (schema: Schema) => void
   updateBlock: (block: Block) => void
+  deleteBlock: (blockId: number) => void
   pushBlock: (block: Block) => void
   clearAllFocus: () => void
 }
@@ -28,6 +29,20 @@ export const useSchemaStore = create<State & Actions>((set) => ({
     const index = blocks.findIndex((b) => b.id === block.id)
     if (index !== -1) {
       blocks[index] = block
+    }
+    return {
+      schema: {
+        ...state.schema,
+        blocks
+      }
+    }
+  })),
+
+  deleteBlock: (id: number) => (set((state) => {
+    const blocks = [...state.schema.blocks]
+    const index = blocks.findIndex((b) => b.id === id)
+    if (index !== -1) {
+      blocks.splice(index, 1)
     }
     return {
       schema: {

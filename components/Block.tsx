@@ -11,7 +11,7 @@ type Props = {
 
 export const BlockItem: FC<Props> = (props) => {
   const scale = useScaleStore((state) => state.scale)
-  const [schema, updateBlock, clearAllFocus] = useSchemaStore((state) => [state.schema, state.updateBlock, state.clearAllFocus])
+  const [schema, updateBlock, clearAllFocus, deleteBlock] = useSchemaStore((state) => [state.schema, state.updateBlock, state.clearAllFocus, state.deleteBlock])
   const blockRef = useRef<HTMLDivElement>(null)
   const setMarkLine = useMarkLineStore((state) => state.setMarkLine)
   const drageState = useRef<DragState>()
@@ -118,6 +118,19 @@ export const BlockItem: FC<Props> = (props) => {
     document.addEventListener('mouseup', blockMouseUp);
 
   }
+
+  /**
+     * Delete 键，删除当前选中的元素
+     * @param e
+     */
+  function blockDeleteKeyDown(e: KeyboardEvent) {
+    if (e.key === 'Delete' && props.block.focus) {
+      deleteBlock(props.block.id)
+      document.removeEventListener('keydown', blockDeleteKeyDown);
+    }
+  }
+  document.addEventListener('keydown', blockDeleteKeyDown);
+
 
   return (
     <div
