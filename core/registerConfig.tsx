@@ -26,7 +26,7 @@ registerConfig.registerMaterial({
   type: 'field',
   name: '字段名称',
   preview: () => <div>字段名称</div>,
-  renderInstance: () => <div>字段名称渲染</div>,
+  renderInstance: () => <div className="h-172">字段名称渲染</div>,
 });
 
 registerConfig.registerMaterial({

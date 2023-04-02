@@ -33,3 +33,14 @@ export interface MarkLine {
   x: number;
   y: number;
 }
+
+export interface DragState {
+  startX: number;
+  startY: number;
+  startTop: number;
+  startLeft: number;
+  marklineCollection: {
+    x: Array<{ showLeft: number, left: number }>
+    y: Array<{ showTop: number, top: number }>
+  }
+}

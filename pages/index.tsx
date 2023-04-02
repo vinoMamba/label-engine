@@ -76,7 +76,7 @@ export default function Home() {
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
               onMouseDown={() => useSchemaStore.getState().clearAllFocus()}
-              className='bg-white relative'
+              className='bg-white relative overflow-hidden'
               style={{
                 width: `${schema.container.width}mm`,
                 height: `${schema.container.height}mm`,
