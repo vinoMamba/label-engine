@@ -1,3 +1,4 @@
+import { CustomTextPreview, FieldPreview, LogoPreview, QrCodePreview } from "@/components/preview";
 import { Material } from "@/types/type";
 
 function createMeterial() {
@@ -18,28 +19,28 @@ const registerConfig = createMeterial();
 registerConfig.registerMaterial({
   type: 'qrCode',
   name: '资产二维码',
-  preview: () => <div>二维码</div>,
+  preview: QrCodePreview,
   renderInstance: () => <div>二维码渲染</div>,
 });
 
 registerConfig.registerMaterial({
   type: 'field',
   name: '字段名称',
-  preview: () => <div>字段名称</div>,
+  preview: FieldPreview,
   renderInstance: () => <div className="h-172">字段名称渲染</div>,
 });
 
 registerConfig.registerMaterial({
   type: 'logo',
   name: '公司Logo',
-  preview: () => <div>公司logo</div>,
+  preview: LogoPreview,
   renderInstance: () => <div>Logo渲染</div>,
 });
 
 registerConfig.registerMaterial({
   type: 'customText',
   name: '自定义文本框',
-  preview: () => <div>自定义文本框</div>,
+  preview: CustomTextPreview,
   renderInstance: () => <div>文本框渲染</div>,
 });
 

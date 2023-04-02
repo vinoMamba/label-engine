@@ -48,10 +48,10 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className='h-screen'>
-        <header className='h-72 border border-solid border-b-blue flex justify-center items-center'>自定义标签画板</header>
+      <main className='h-screen bg-white'>
+        <header className='h-72 border border-solid border-b-#ddd flex justify-center items-center'>自定义标签画板</header>
         <div className='flex  h[calc(100vh-72px)]'>
-          <section className='p-16 pt-0 w-200'>
+          <section className='p-16 w-250'>
             <p className='text-18 font-700'>控件库</p>
             <ul>
               {registerConfig.materials.map((material) => (
