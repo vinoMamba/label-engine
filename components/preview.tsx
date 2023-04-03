@@ -12,7 +12,7 @@ type Props = {
 
 const Container: FC<Props> = (props) => {
   return (
-    <section className="border border-solid rounded-8 p-8 my-8 overflow-hidden cursor-pointer">
+    <section className="border border-solid border-#DDDDDD rounded-8 p-8 my-8 overflow-hidden cursor-pointer text-#333333">
       <div className="flex items-center">
         <Image src={props.icon} width={24} alt="logo" />
         <span className="ml-2 whitespace-nowrap">{props.children}</span>

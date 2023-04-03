@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { registerConfig } from '@/core/registerConfig'
-import { DragEventHandler, MouseEventHandler, useRef } from 'react'
+import { DragEventHandler, MouseEventHandler, useRef, useState } from 'react'
 import { Block, Material } from '@/types/type'
 import { BlockItem } from '@/components/Block'
 import { useSchemaStore } from '@/store/useSchemaStore'
@@ -97,12 +97,19 @@ export default function Home() {
               ))}
             </ul>
           </section>
-          <section className='relative h[calc(100vh-72px)] flex-1 bg-#f0f0f0 overflow-auto flex justify-center items-center'>
+          <section
+            style={{
+              boxShadow: '0 0 4px rgba(0, 0, 0, 0.1);',
+              backgroundImage: 'radial-gradient(rgba(9, 89, 194, 0.3) 6%, transparent 0),radial-gradient(#faf9f8 6%, transparent 0)',
+              backgroundSize: '20px 20px',
+              backgroundPosition: '0 0, 10px 10px',
+            }}
+            className='relative h[calc(100vh-72px)] flex-1  overflow-auto flex justify-center items-center'>
             <div className='absolute right-20 top-20 flex gap-8 z-10'>
               <button className='btn' onClick={resetPanelState}>重置</button>
               <StepCounter />
             </div>
-            <div className='absolute left-20 top-20 flex flex-col gap-8 z-10'>
+            <div className='absolute left-20 top-20 flex flex-col gap-8 z-10 select-none'>
               {schema.blocks.map((block) => (
                 <div key={block.id}>{JSON.stringify(block)}</div>
               ))}
@@ -115,6 +122,7 @@ export default function Home() {
               onMouseDown={handleMouseDown}
               className='bg-white relative overflow-hidden'
               style={{
+                border: '1px solid #ddd',
                 width: `${schema.container.width}mm`,
                 height: `${schema.container.height}mm`,
                 transform: `scale(${scale}) translate(${schema.container.left}px,${schema.container.top}px)`,
