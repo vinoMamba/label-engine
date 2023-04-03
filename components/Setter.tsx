@@ -20,9 +20,9 @@ export const Setter = () => {
       case 'field':
         return <FieldSetter />
       case 'logo':
-        return <LogoSetter block={currentBlock!} />
+        return <LogoSetter />
       case 'customText':
-        return <CustomTextSetter block={currentBlock!} />
+        return <CustomTextSetter />
       default:
         return <div>请选择控件</div>
     }

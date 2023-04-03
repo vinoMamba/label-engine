@@ -6,7 +6,7 @@ export interface Material {
   type: MaterialType;
   name: string;
   preview: () => JSX.Element;
-  renderInstance: (props) => JSX.Element;
+  renderInstance: FC<props>
   props: Record<string, any>;
 }
 
