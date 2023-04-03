@@ -9,7 +9,8 @@ import { useScaleStore } from '@/store/useScaleStore'
 import { useMarkLineStore } from '@/store/useMarkLineStore'
 import { PanelHeader } from '@/components/PanelHeader'
 import { Setter } from '@/components/Setter'
-import { Button } from 'antd'
+import { Button  } from 'antd'
+import { PreviewModal } from '@/components/PreviewModal'
 
 export default function Home() {
   const [scale, resetScale] = useScaleStore((state) => [state.scale, state.resetScale])
@@ -104,7 +105,7 @@ export default function Home() {
             }}
             className='relative h[calc(100vh-144px)] flex-1  overflow-auto flex justify-center items-center'>
             <div className='absolute right-20 top-20 flex gap-8 z-10'>
-              <Button>预览</Button>
+              <PreviewModal />
               <Button onClick={resetPanelState}>重置</Button>
               <StepCounter />
             </div>
