@@ -7,10 +7,11 @@ import { useSchemaStore } from '@/store/useSchemaStore'
 import { StepCounter } from '@/components/StepCounter'
 import { useScaleStore } from '@/store/useScaleStore'
 import { useMarkLineStore } from '@/store/useMarkLineStore'
+import { PanelHeader } from '@/components/PanelHeader'
 
 export default function Home() {
   const [scale, resetScale] = useScaleStore((state) => [state.scale, state.resetScale])
-  const [schema, pushBlock, clearAllFocus, updateSchema] = useSchemaStore((state) => [state.schema, state.pushBlock, state.clearAllFocus, state.updateSchema])
+  const [schema, pushBlock, clearAllFocus, updateContainer] = useSchemaStore((state) => [state.schema, state.pushBlock, state.clearAllFocus, state.updateContainer])
   const [markLine] = useMarkLineStore((state) => [state.markLine])
   const currentMaterial = useRef<Material>()
 
@@ -45,15 +46,12 @@ export default function Home() {
     const mousemove = (e: MouseEvent) => {
       const moveX = (e.clientX - clientX) / scale
       const moveY = (e.clientY - clientY) / scale
-      const newSchema = {
-        ...schema,
-        container: {
-          ...schema.container,
-          top: schema.container.top + moveY,
-          left: schema.container.left + moveX,
-        }
+      const newContainer = {
+        ...schema.container,
+        top: schema.container.top + moveY,
+        left: schema.container.left + moveX,
       }
-      updateSchema(newSchema)
+      updateContainer(newContainer)
     }
 
     const mouseup = () => {
@@ -65,14 +63,11 @@ export default function Home() {
     document.addEventListener('mouseup', mouseup);
   }
   const resetPanelState = () => {
-    updateSchema({
-      container: {
-        width: 100,
-        height: 50,
-        top: 0,
-        left: 0,
-      },
-      blocks: [],
+    updateContainer({
+      width: 100,
+      height: 50,
+      top: 0,
+      left: 0,
     })
     resetScale()
   }
@@ -85,7 +80,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className='h-screen bg-white'>
-        <header className='h-72 border border-solid border-b-#ddd flex justify-center items-center'>自定义标签画板</header>
+        <PanelHeader />
         <div className='flex  h[calc(100vh-72px)]'>
           <section className='p-16 w-250'>
             <p className='text-18 font-700'>控件库</p>

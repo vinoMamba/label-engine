@@ -6,6 +6,7 @@ type State = {
   schema: Schema
 }
 type Actions = {
+  updateContainer: (container: Schema['container']) => void
   updateSchema: (schema: Schema) => void
   updateBlock: (block: Block) => void
   deleteBlock: (blockId: number) => void
@@ -14,6 +15,13 @@ type Actions = {
 }
 export const useSchemaStore = create<State & Actions>((set) => ({
   schema: labelSchema,
+
+  updateContainer: (container: Schema['container']) => (set((state) => ({
+    schema: {
+      ...state.schema,
+      container
+    }
+  }))),
 
   updateSchema: (schema: Schema) => set({ schema }),
 
