@@ -8,7 +8,6 @@ type Props = {
   fieldName: string
 }
 export const FieldRender: FC<Props> = (props) => {
-  console.log(props.fontSize)
   return (
     <span
       style={{
