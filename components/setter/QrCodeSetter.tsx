@@ -16,13 +16,19 @@ export const QrCodeSetter = () => {
   }
   return (
     <div>
-      <h6>资产二维码</h6>
+      <h6 className="setter-h6">资产二维码</h6>
       <Form>
         <Form.Item label="宽度" rules={[{ required: true }]}>
-          <InputNumber value={currentBlock!.options.width} onChange={valueChange} />
+          <div className="flex items-center">
+            <InputNumber value={currentBlock!.options.width} onChange={valueChange} />
+            <span className="ml-4">px</span>
+          </div>
         </Form.Item>
         <Form.Item label="高度" rules={[{ required: true }]}>
-          <InputNumber value={currentBlock!.options.height} onChange={valueChange} />
+          <div className="flex items-center">
+            <InputNumber value={currentBlock!.options.height} onChange={valueChange} />
+            <span className="ml-4">px</span>
+          </div>
         </Form.Item>
       </Form>
     </div>

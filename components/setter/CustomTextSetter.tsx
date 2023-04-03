@@ -33,7 +33,7 @@ export const CustomTextSetter = () => {
   }
   return (
     <div>
-      <h6>自定义文本框</h6>
+      <h6 className="setter-h6">自定义文本框</h6>
       <Form>
         <Form.Item label="文本内容" rules={[{ required: true }]}>
           <Input placeholder="请输入文本内容" value={currentBlock!.props.text} onChange={handleInputChange} />

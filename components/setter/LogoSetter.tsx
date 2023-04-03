@@ -26,7 +26,7 @@ export const LogoSetter = () => {
   }
   return (
     <div>
-      <h6>资产二维码</h6>
+      <h6 className="setter-h6">资产二维码</h6>
       <Form>
         <Form.Item label="宽度" rules={[{ required: true }]}>
           <InputNumber value={currentBlock!.options.width} onChange={widthChange} />

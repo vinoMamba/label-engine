@@ -7,5 +7,6 @@ export const labelSchema: Schema = {
     top: 0,
     left: 0,
   },
-  blocks: []
+  blocks: [
+  ]
 }

@@ -43,7 +43,7 @@ export const FieldSetter = () => {
   }
   return (
     <div>
-      <h6>字段信息</h6>
+      <h6 className="setter-h6">字段信息</h6>
       <Form>
         <Form.Item label="字段名称" rules={[{ required: true }]}>
           <Select

@@ -9,6 +9,7 @@ import { useScaleStore } from '@/store/useScaleStore'
 import { useMarkLineStore } from '@/store/useMarkLineStore'
 import { PanelHeader } from '@/components/PanelHeader'
 import { Setter } from '@/components/Setter'
+import { Button } from 'antd'
 
 export default function Home() {
   const [scale, resetScale] = useScaleStore((state) => [state.scale, state.resetScale])
@@ -83,7 +84,7 @@ export default function Home() {
       </Head>
       <main className='h-screen bg-white'>
         <PanelHeader />
-        <div className='flex  h[calc(100vh-72px)]'>
+        <div className='flex  h[calc(100vh-144px)]'>
           <section className='p-16 w-250'>
             <p className='text-18 font-700'>控件库</p>
             <ul>
@@ -101,9 +102,10 @@ export default function Home() {
               backgroundSize: '20px 20px',
               backgroundPosition: '0 0, 10px 10px',
             }}
-            className='relative h[calc(100vh-72px)] flex-1  overflow-auto flex justify-center items-center'>
+            className='relative h[calc(100vh-144px)] flex-1  overflow-auto flex justify-center items-center'>
             <div className='absolute right-20 top-20 flex gap-8 z-10'>
-              <button className='btn' onClick={resetPanelState}>重置</button>
+              <Button>预览</Button>
+              <Button onClick={resetPanelState}>重置</Button>
               <StepCounter />
             </div>
             <div className='absolute left-20 top-20 flex flex-col gap-8 z-10 select-none'>
@@ -134,10 +136,13 @@ export default function Home() {
               )}
             </div>
           </section>
-          <section className='w-250 flex flex-col justify-between pb-16'>
+          <section className='w-250 flex flex-col justify-between p-16'>
             <Setter />
           </section>
         </div>
+        <footer className='bg-white h-72 flex items-center justify-end px-72'>
+          <Button type="primary">保存</Button>
+        </footer>
       </main>
     </>
   )

@@ -4,6 +4,7 @@ import { FieldSetter } from "./setter/FieldSetter"
 import { QrCodeSetter } from "./setter/QrCodeSetter"
 import { LogoSetter } from "./setter/LogoSetter"
 import { CustomTextSetter } from "./setter/CustomTextSetter"
+import { Button } from "antd"
 
 
 export const Setter = () => {
@@ -28,7 +29,7 @@ export const Setter = () => {
     }
   }
   return (
-    <div className="p-8 pt-0 flex flex-col h-full">
+    <div className="flex flex-col h-full">
       <div className="flex-grow">
         {currentBlock?.type ?
           generateSetter(currentBlock.type) :
@@ -36,9 +37,9 @@ export const Setter = () => {
         }
       </div>
       {currentBlock && (
-        <button className="w-full p-8 bg-red" onClick={handleDelete} >
+        <Button type="primary" danger={true} onClick={handleDelete} className="mb-80" >
           删除控件
-        </button>
+        </Button>
       )}
     </div>
   )
