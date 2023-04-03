@@ -8,6 +8,7 @@ import { StepCounter } from '@/components/StepCounter'
 import { useScaleStore } from '@/store/useScaleStore'
 import { useMarkLineStore } from '@/store/useMarkLineStore'
 import { PanelHeader } from '@/components/PanelHeader'
+import { Setter } from '@/components/Setter'
 
 export default function Home() {
   const [scale, resetScale] = useScaleStore((state) => [state.scale, state.resetScale])
@@ -132,7 +133,9 @@ export default function Home() {
               )}
             </div>
           </section>
-          <section className='w-200'>设置器</section>
+          <section className='w-250 flex flex-col justify-between pb-16'>
+            <Setter />
+          </section>
         </div>
       </main>
     </>

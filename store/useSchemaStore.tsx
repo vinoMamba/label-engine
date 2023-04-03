@@ -3,11 +3,13 @@ import { Block, Schema } from "@/types/type"
 import { create } from "zustand"
 
 type State = {
-  schema: Schema
+  schema: Schema,
+  currentBlock: Block | null
 }
 type Actions = {
   updateContainer: (container: Schema['container']) => void
   updateSchema: (schema: Schema) => void
+  setCurrentBlock: (block: Block) => void
   updateBlock: (block: Block) => void
   deleteBlock: (blockId: number) => void
   pushBlock: (block: Block) => void
@@ -15,16 +17,15 @@ type Actions = {
 }
 export const useSchemaStore = create<State & Actions>((set) => ({
   schema: labelSchema,
-
+  currentBlock: null,
   updateContainer: (container: Schema['container']) => (set((state) => ({
     schema: {
       ...state.schema,
       container
     }
   }))),
-
   updateSchema: (schema: Schema) => set({ schema }),
-
+  setCurrentBlock: (block: Block) => set({ currentBlock: block }),
   pushBlock: (block) => (set((state) => ({
     schema: {
       ...state.schema,
@@ -51,6 +52,7 @@ export const useSchemaStore = create<State & Actions>((set) => ({
     const index = blocks.findIndex((b) => b.id === id)
     if (index !== -1) {
       blocks.splice(index, 1)
+      state.currentBlock = null
     }
     return {
       schema: {

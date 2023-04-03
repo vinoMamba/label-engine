@@ -11,7 +11,12 @@ type Props = {
 
 export const BlockItem: FC<Props> = (props) => {
   const scale = useScaleStore((state) => state.scale)
-  const [schema, updateBlock, clearAllFocus, deleteBlock] = useSchemaStore((state) => [state.schema, state.updateBlock, state.clearAllFocus, state.deleteBlock])
+  const [schema, updateBlock, clearAllFocus, deleteBlock, setCurrentBlock] = useSchemaStore((state) => [
+    state.schema,
+    state.updateBlock,
+    state.clearAllFocus,
+    state.deleteBlock,
+    state.setCurrentBlock])
   const blockRef = useRef<HTMLDivElement>(null)
   const setMarkLine = useMarkLineStore((state) => state.setMarkLine)
   const drageState = useRef<DragState>()
@@ -43,6 +48,7 @@ export const BlockItem: FC<Props> = (props) => {
       }
       clearAllFocus()
       updateBlock(newBlock)
+      setCurrentBlock(newBlock)
     }
     handleMouseMove(e)
   }
