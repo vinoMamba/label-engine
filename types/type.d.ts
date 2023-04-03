@@ -25,6 +25,8 @@ export interface Schema {
   container: {
     width: number;
     height: number;
+    top: number;
+    left: number;
   };
   blocks: Block[];
 }

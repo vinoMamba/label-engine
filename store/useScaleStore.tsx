@@ -6,6 +6,7 @@ type State = {
 type Actions = {
   addScale: () => void
   reduceScale: () => void
+  resetScale: () => void
 }
 /**
  * 缩放比例
@@ -20,5 +21,6 @@ export const useScaleStore = create<State & Actions>((set) => ({
   reduceScale: () => set((state) => {
     if (state.scale <= 1) return { scale: 1 }
     return { scale: state.scale - 0.5 }
-  })
+  }),
+  resetScale: () => set({ scale: 1 })
 }))

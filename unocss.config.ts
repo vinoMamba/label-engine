@@ -10,5 +10,7 @@ export default defineConfig({
   rules: [
     [/^max-w-(\d+)$/, ([_, match]) => ({ maxWidth: `${match}px` })],
   ],
-  shortcuts: {}
+  shortcuts: {
+    'btn': 'rounded bg-white p-4 px-8',
+  }
 })

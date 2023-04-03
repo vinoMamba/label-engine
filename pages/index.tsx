@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { registerConfig } from '@/core/registerConfig'
-import { DragEventHandler, useRef } from 'react'
+import { DragEventHandler, MouseEventHandler, useRef } from 'react'
 import { Block, Material } from '@/types/type'
 import { BlockItem } from '@/components/Block'
 import { useSchemaStore } from '@/store/useSchemaStore'
@@ -9,8 +9,8 @@ import { useScaleStore } from '@/store/useScaleStore'
 import { useMarkLineStore } from '@/store/useMarkLineStore'
 
 export default function Home() {
-  const scale = useScaleStore((state) => state.scale)
-  const [schema, pushBlock] = useSchemaStore((state) => [state.schema, state.pushBlock])
+  const [scale, resetScale] = useScaleStore((state) => [state.scale, state.resetScale])
+  const [schema, pushBlock, clearAllFocus, updateSchema] = useSchemaStore((state) => [state.schema, state.pushBlock, state.clearAllFocus, state.updateSchema])
   const [markLine] = useMarkLineStore((state) => [state.markLine])
   const currentMaterial = useRef<Material>()
 
@@ -20,11 +20,9 @@ export default function Home() {
   const handleDragEnter: DragEventHandler<HTMLDivElement> = (e) => {
     e.dataTransfer.dropEffect = 'move'
   }
-
   const handleDragLeave: DragEventHandler<HTMLDivElement> = (e) => {
     e.dataTransfer.dropEffect = 'none'
   }
-
   const handleDrop: DragEventHandler<HTMLDivElement> = (e) => {
     const { offsetX, offsetY } = e.nativeEvent
     const block: Block = {
@@ -39,6 +37,44 @@ export default function Home() {
       }
     }
     pushBlock(block)
+  }
+  const handleMouseDown: MouseEventHandler<HTMLDivElement> = (e) => {
+    if (e.button !== 0) return
+    const { clientX, clientY } = e
+    clearAllFocus()
+    const mousemove = (e: MouseEvent) => {
+      const moveX = (e.clientX - clientX) / scale
+      const moveY = (e.clientY - clientY) / scale
+      const newSchema = {
+        ...schema,
+        container: {
+          ...schema.container,
+          top: schema.container.top + moveY,
+          left: schema.container.left + moveX,
+        }
+      }
+      updateSchema(newSchema)
+    }
+
+    const mouseup = () => {
+      document.removeEventListener('mousemove', mousemove);
+      document.removeEventListener('mouseup', mouseup);
+    }
+
+    document.addEventListener('mousemove', mousemove);
+    document.addEventListener('mouseup', mouseup);
+  }
+  const resetPanelState = () => {
+    updateSchema({
+      container: {
+        width: 100,
+        height: 50,
+        top: 0,
+        left: 0,
+      },
+      blocks: [],
+    })
+    resetScale()
   }
   return (
     <>
@@ -63,6 +99,7 @@ export default function Home() {
           </section>
           <section className='relative h[calc(100vh-72px)] flex-1 bg-#f0f0f0 overflow-auto flex justify-center items-center'>
             <div className='absolute right-20 top-20 flex gap-8 z-10'>
+              <button className='btn' onClick={resetPanelState}>重置</button>
               <StepCounter />
             </div>
             <div className='absolute left-20 top-20 flex flex-col gap-8 z-10'>
@@ -75,12 +112,12 @@ export default function Home() {
               onDragOver={e => e.preventDefault()}
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
-              onMouseDown={() => useSchemaStore.getState().clearAllFocus()}
+              onMouseDown={handleMouseDown}
               className='bg-white relative overflow-hidden'
               style={{
                 width: `${schema.container.width}mm`,
                 height: `${schema.container.height}mm`,
-                transform: `scale(${scale})`,
+                transform: `scale(${scale}) translate(${schema.container.left}px,${schema.container.top}px)`,
               }}
             >
               {schema.blocks.map((block, index) => <BlockItem key={index} block={block} />)}

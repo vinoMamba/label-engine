@@ -2,8 +2,10 @@ import { Schema } from "@/types/type";
 
 export const labelSchema: Schema = {
   container: {
-    width: 200,
-    height: 100,
+    width: 100,
+    height: 50,
+    top: 0,
+    left: 0,
   },
   blocks: []
 }

@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { toDataURL } from 'qrcode'
 import { useEffect, useState } from 'react'
 export const QrCodeRender = () => {
@@ -14,8 +15,8 @@ export const QrCodeRender = () => {
     )
   }, [])
   return (
-    <div>
-      <img src={qrCode} alt="" />
+    <div className='h-128 w-128'>
+      <Image src={qrCode} alt='qrCode' width={128} height={128} />
     </div>
   )
 }
