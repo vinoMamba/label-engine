@@ -38,6 +38,7 @@ export const useSchemaStore = create<State & Actions>((set) => ({
     const index = blocks.findIndex((b) => b.id === block.id)
     if (index !== -1) {
       blocks[index] = block
+      if (block.focus) state.currentBlock = block
     }
     return {
       schema: {

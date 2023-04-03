@@ -1,12 +1,18 @@
 import Image from 'next/image'
 import { toDataURL } from 'qrcode'
-import { useEffect, useState } from 'react'
-export const QrCodeRender = () => {
+import { FC, useEffect, useState } from 'react'
+
+type Props = {
+  width: number
+  height: number
+}
+
+export const QrCodeRender: FC<Props> = (props) => {
   const [qrCode, setQrCode] = useState('')
   useEffect(() => {
     toDataURL('https://www.baidu.com', {
       errorCorrectionLevel: 'H',
-      width: 100,
+      width: props.width ?? 100,
       margin: 2,
     }).then(
       (url) => {
@@ -15,8 +21,11 @@ export const QrCodeRender = () => {
     )
   }, [])
   return (
-    <div className='h-128 w-128'>
-      <Image src={qrCode} alt='qrCode' width={128} height={128} />
+    <div style={{
+      width: `${props.width || 150}px`,
+      height: `${props.height || 150}px`,
+    }}>
+      <Image src={qrCode} alt='qrCode' width={props.width} height={props.width} />
     </div>
   )
 }

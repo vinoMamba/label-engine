@@ -1,8 +1,22 @@
+import { FC } from "react"
 
-export const FieldRender = () => {
+type Props = {
+  fontSize: number
+  bold: boolean
+  hideTitle: boolean
+  fieldValue: string
+  fieldName: string
+}
+export const FieldRender: FC<Props> = (props) => {
+  console.log(props.fontSize)
   return (
-    <p className="p-0 m-0 overflow-hidden whitespace-nowrap">
-      <span>字段名称：XXXXXX</span>
-    </p>
+    <span
+      style={{
+        fontSize: `${props.fontSize || 14}px`,
+        fontWeight: props.bold ? 'bold' : 'normal',
+      }}
+      className="p-0 m-0 overflow-hidden whitespace-nowrap">
+      {props.hideTitle ? 'XXXXXX' : `${props.fieldName || '字段名称'}：XXXXXX`}
+    </span>
   )
 }
