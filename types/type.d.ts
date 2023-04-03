@@ -6,7 +6,8 @@ export interface Material {
   type: MaterialType;
   name: string;
   preview: () => JSX.Element;
-  renderInstance: () => JSX.Element;
+  renderInstance: (props) => JSX.Element;
+  props: Record<string, any>;
 }
 
 export interface Block {
@@ -19,6 +20,7 @@ export interface Block {
     width: number;
     height: number;
   };
+  props: Record<string, any>;
 }
 
 export interface Schema {

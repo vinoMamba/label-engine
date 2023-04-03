@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { registerConfig } from '@/core/registerConfig'
-import { DragEventHandler, MouseEventHandler, useRef, useState } from 'react'
+import { DragEventHandler, MouseEventHandler, useRef } from 'react'
 import { Block, Material } from '@/types/type'
 import { BlockItem } from '@/components/Block'
 import { useSchemaStore } from '@/store/useSchemaStore'
@@ -36,7 +36,8 @@ export default function Home() {
         left: offsetX,
         width: 0,
         height: 0,
-      }
+      },
+      props: currentMaterial.current!.props,
     }
     pushBlock(block)
   }

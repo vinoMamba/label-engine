@@ -25,6 +25,9 @@ registerConfig.registerMaterial({
   name: '资产二维码',
   preview: QrCodePreview,
   renderInstance: QrCodeRender,
+  props: {
+    value: ''
+  }
 });
 
 registerConfig.registerMaterial({
@@ -32,6 +35,13 @@ registerConfig.registerMaterial({
   name: '字段名称',
   preview: FieldPreview,
   renderInstance: FieldRender,
+  props: {
+    fontSize: 14,
+    bold: false,
+    hideTitle: false,
+    fieldValue: '',
+    fieldName: '',
+  }
 });
 
 registerConfig.registerMaterial({
@@ -39,13 +49,22 @@ registerConfig.registerMaterial({
   name: '公司Logo',
   preview: LogoPreview,
   renderInstance: LogoRender,
+  props: {
+    url: '',
+  }
 });
 
 registerConfig.registerMaterial({
   type: 'customText',
   name: '自定义文本框',
   preview: CustomTextPreview,
-  renderInstance: TextRender
+  renderInstance: TextRender,
+  props: {
+    fontSize: 14,
+    bold: false,
+    hideTitle: false,
+    text: '',
+  }
 });
 
 export { registerConfig };

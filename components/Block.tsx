@@ -149,7 +149,7 @@ export const BlockItem: FC<Props> = (props) => {
         left: props.block.options.left,
       }}
     >
-      {Material && <Material.renderInstance />}
+      {Material && <Material.renderInstance {...props.block.props} />}
     </div>
   )
 }
