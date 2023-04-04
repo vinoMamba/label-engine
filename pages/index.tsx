@@ -12,8 +12,18 @@ import { Setter } from '@/components/Setter'
 import { Button } from 'antd'
 import { PreviewModal } from '@/components/PreviewModal'
 import { GetServerSideProps } from 'next'
+import { useFieldListStore } from '@/store/useFieldListStore'
+import { getFieldList } from '@/api'
 
-export default function Home() {
+type Props = {
+  fieldList: Record<string, any>[]
+}
+
+export default function Home(props: Props) {
+  //初始化字段信息数据
+  const [setFieldList] = useFieldListStore((state) => [state.setFieldList])
+  setFieldList(props.fieldList)
+
   const [scale, resetScale] = useScaleStore((state) => [state.scale, state.resetScale])
   const [schema, pushBlock, clearAllFocus, updateContainer] = useSchemaStore((state) => [state.schema, state.pushBlock, state.clearAllFocus, state.updateContainer])
   const [markLine] = useMarkLineStore((state) => [state.markLine])
@@ -146,7 +156,25 @@ export default function Home() {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  return {
-    props: {}
+  const { query } = context
+  try {
+    const auth = query.auth as string
+    const url = process.env.API_URL
+    const result = await getFieldList(url, auth)
+    const { data } = await result.json()
+    return {
+      props: {
+        fieldList: data
+      }
+    }
+
+  } catch (error) {
+    console.log(error)
+    return {
+      props: {
+        fieldList: []
+      }
+    }
   }
+
 }

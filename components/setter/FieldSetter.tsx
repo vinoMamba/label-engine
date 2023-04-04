@@ -1,8 +1,10 @@
-import { fieldOptions, fontSizes } from "@/shared"
+import { fontSizes } from "@/shared"
 import { useSchemaStore } from "@/store/useSchemaStore"
 import { Form, Checkbox, Select } from "antd"
+import { useFieldListStore } from "@/store/useFieldListStore"
 
 export const FieldSetter = () => {
+  const [fieldList] = useFieldListStore((state) => [state.fieldList])
   const [currentBlock, updateBlock] = useSchemaStore((state) => [state.currentBlock, state.updateBlock])
   const handleFieldChange = (value: { value: string; label: React.ReactNode }) => {
     updateBlock({
@@ -50,7 +52,7 @@ export const FieldSetter = () => {
             labelInValue={true}
             value={currentBlock!.props.fieldValue}
             onChange={handleFieldChange}
-            options={fieldOptions} />
+            options={fieldList} />
         </Form.Item>
         <Form.Item label="字段大小" rules={[{ required: true }]}>
           <Select
