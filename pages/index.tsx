@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { registerConfig } from '@/core/registerConfig'
-import { DragEventHandler, MouseEventHandler, useRef } from 'react'
-import { Block, Material } from '@/types/type'
+import { DragEventHandler, MouseEventHandler, useEffect, useRef } from 'react'
+import { Block, Material, Schema } from '@/types/type'
 import { BlockItem } from '@/components/Block'
 import { useSchemaStore } from '@/store/useSchemaStore'
 import { StepCounter } from '@/components/StepCounter'
@@ -9,23 +9,34 @@ import { useScaleStore } from '@/store/useScaleStore'
 import { useMarkLineStore } from '@/store/useMarkLineStore'
 import { PanelHeader } from '@/components/PanelHeader'
 import { Setter } from '@/components/Setter'
-import { Button } from 'antd'
+import { Button, message } from 'antd'
 import { PreviewModal } from '@/components/PreviewModal'
 import { GetServerSideProps } from 'next'
 import { useFieldListStore } from '@/store/useFieldListStore'
-import { getFieldList } from '@/api'
+import { getFieldList, getLabelInfo, updateLabelInfo } from '@/api'
+import { labelSchema } from '@/core/schema'
 
 type Props = {
   fieldList: Record<string, any>[]
+  url: string
+  auth: string,
+  labelField: Schema
 }
 
 export default function Home(props: Props) {
-  //初始化字段信息数据
   const [setFieldList] = useFieldListStore((state) => [state.setFieldList])
-  setFieldList(props.fieldList)
-
+  const [messageApi, contextHolder] = message.useMessage();
   const [scale, resetScale] = useScaleStore((state) => [state.scale, state.resetScale])
-  const [schema, pushBlock, clearAllFocus, updateContainer] = useSchemaStore((state) => [state.schema, state.pushBlock, state.clearAllFocus, state.updateContainer])
+
+  const [schema, pushBlock, clearAllFocus, updateContainer, updateSchema] = useSchemaStore((state) => [state.schema, state.pushBlock, state.clearAllFocus, state.updateContainer, state.updateSchema])
+
+  //初始化字段列表以及标签信息
+  useEffect(() => {
+    setFieldList(props.fieldList)
+    updateSchema(props.labelField)
+  }, [])
+
+
   const [markLine] = useMarkLineStore((state) => [state.markLine])
   const currentMaterial = useRef<Material>()
 
@@ -86,6 +97,18 @@ export default function Home(props: Props) {
     })
     resetScale()
   }
+  const save = async () => {
+    try {
+      const data = await updateLabelInfo(props.url, props.auth, schema)
+      if (data.status === 200) {
+        messageApi.success('保存成功')
+      } else {
+        messageApi.error('保存失败')
+      }
+    } catch (error) {
+      messageApi.error('保存失败')
+    }
+  }
   return (
     <>
       <Head>
@@ -94,6 +117,7 @@ export default function Home(props: Props) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      {contextHolder}
       <main className='h-screen bg-white'>
         <PanelHeader />
         <div className='flex  h[calc(100vh-144px)]'>
@@ -148,7 +172,7 @@ export default function Home(props: Props) {
           </section>
         </div>
         <footer className='bg-white h-72 flex items-center justify-end px-72'>
-          <Button type="primary">保存</Button>
+          <Button type="primary" onClick={save}>保存</Button>
         </footer>
       </main>
     </>
@@ -157,24 +181,40 @@ export default function Home(props: Props) {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { query } = context
-  try {
-    const auth = query.auth as string
-    const url = process.env.API_URL
-    const result = await getFieldList(url, auth)
-    const { data } = await result.json()
-    return {
-      props: {
-        fieldList: data
-      }
-    }
-
-  } catch (error) {
-    console.log(error)
+  const auth = query.auth as string
+  if (!auth) {
     return {
       props: {
         fieldList: []
       }
     }
+  } else {
+    try {
+      const url = process.env.API_URL
+      const result = await getFieldList(url || '', auth)
+      const { data } = await result.json()
+      const label = await getLabelInfo(url || '', auth)
+      const { data: labelData } = await label.json()
+      const labelFieldStr = labelData?.labelField as string
+      const labelField = labelFieldStr ? JSON.parse(labelFieldStr) : labelSchema
+      return {
+        props: {
+          fieldList: data,
+          url: url || '',
+          auth,
+          labelField
+        }
+      }
+    } catch (error) {
+      console.log(error)
+      return {
+        props: {
+          fieldList: [],
+          url: '',
+          auth: '',
+          labelField: labelSchema
+        }
+      }
+    }
   }
-
 }
