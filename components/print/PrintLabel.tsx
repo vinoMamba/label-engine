@@ -9,10 +9,10 @@ export const PrintLabel = () => {
   return (
     <div
       style={{
-        border: "1px solid #333",
+        border: "1px solid #2d2d2d",
         position: "relative",
-        width: `${schema.container.width}px`,
-        height: `${schema.container.height}px`,
+        width: `${schema.container.width}mm`,
+        height: `${schema.container.height}mm`,
         backgroundColor: "#fff",
       }}
     >
