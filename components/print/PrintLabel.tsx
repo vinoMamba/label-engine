@@ -9,7 +9,7 @@ export const PrintLabel = () => {
   return (
     <div
       style={{
-        border: "1px solid #2d2d2d",
+        border: "1px solid #d4d4d4",
         position: "relative",
         width: `${schema.container.width}mm`,
         height: `${schema.container.height}mm`,

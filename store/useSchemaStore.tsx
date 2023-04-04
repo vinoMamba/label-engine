@@ -25,7 +25,7 @@ export const useSchemaStore = create<State & Actions>((set) => ({
     }
   }))),
   updateSchema: (schema: Schema) => set({ schema }),
-  setCurrentBlock: (block: Block) => set({ currentBlock: block }),
+  setCurrentBlock: (block: Block | null) => set({ currentBlock: block }),
   pushBlock: (block) => (set((state) => ({
     schema: {
       ...state.schema,
@@ -68,6 +68,7 @@ export const useSchemaStore = create<State & Actions>((set) => ({
     blocks.forEach((b) => {
       b.focus = false
     })
+    state.currentBlock = null
     return {
       schema: {
         ...state.schema,

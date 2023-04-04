@@ -36,7 +36,7 @@ registerConfig.registerMaterial({
   preview: FieldPreview,
   renderInstance: FieldRender,
   props: {
-    fontSize: 14,
+    fontSize: 16,
     bold: false,
     hideTitle: false,
     fieldValue: '',
@@ -60,7 +60,7 @@ registerConfig.registerMaterial({
   preview: CustomTextPreview,
   renderInstance: TextRender,
   props: {
-    fontSize: 14,
+    fontSize: 16,
     bold: false,
     hideTitle: false,
     text: '',

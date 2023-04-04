@@ -9,8 +9,9 @@ import { useScaleStore } from '@/store/useScaleStore'
 import { useMarkLineStore } from '@/store/useMarkLineStore'
 import { PanelHeader } from '@/components/PanelHeader'
 import { Setter } from '@/components/Setter'
-import { Button  } from 'antd'
+import { Button } from 'antd'
 import { PreviewModal } from '@/components/PreviewModal'
+import { GetServerSideProps } from 'next'
 
 export default function Home() {
   const [scale, resetScale] = useScaleStore((state) => [state.scale, state.resetScale])
@@ -98,7 +99,7 @@ export default function Home() {
           </section>
           <section
             style={{
-              boxShadow: "0 0 4px rgba(0, 0, 0, 0.1)" ,
+              boxShadow: "0 0 4px rgba(0, 0, 0, 0.1)",
               backgroundImage: "radial-gradient(rgba(9, 89, 194, 0.3) 6%, transparent 0),radial-gradient(#faf9f8 6%, transparent 0)",
               backgroundSize: "20px 20px",
               backgroundPosition: "0 0, 10px 10px",
@@ -108,11 +109,6 @@ export default function Home() {
               <PreviewModal />
               <Button onClick={resetPanelState}>重置</Button>
               <StepCounter />
-            </div>
-            <div className='absolute left-20 top-20 flex flex-col gap-8 z-10 select-none'>
-              {schema.blocks.map((block) => (
-                <div key={block.id}>{JSON.stringify(block)}</div>
-              ))}
             </div>
             <div
               onDragEnter={handleDragEnter}
@@ -147,4 +143,10 @@ export default function Home() {
       </main>
     </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  return {
+    props: {}
+  }
 }
