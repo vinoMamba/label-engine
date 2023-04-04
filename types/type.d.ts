@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-
 export type MaterialType = 'qrCode' | 'field' | 'logo' | 'customText';
 
 export interface Material {
@@ -47,4 +46,16 @@ export interface DragState {
     x: Array<{ showLeft: number, left: number }>
     y: Array<{ showTop: number, top: number }>
   }
+}
+
+/**
+ * 业务类型
+ */
+export interface labelInfo {
+  assetInfoId: string;
+  qrCodeUrl: string;
+  assetLabelFieldList: Array<{
+    fieldName: string;
+    fieldValue: string;
+  }>
 }

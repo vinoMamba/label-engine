@@ -4,10 +4,14 @@ import { QRCode } from 'antd'
 type Props = {
   width: number
   height: number
+  value: string
 }
 
 export const QrCodeRender: FC<Props> = (props) => {
-  return (
-    <QRCode value="https://ant.design/" size={props.width || 150} />
-  )
+  if (props.value) {
+    return <img src={props.value} width={props.width || 100} height={props.height || 100} />
+  }
+  else {
+    return <QRCode value="https://www.ahdingtalk.com/" size={props.width || 100} />
+  }
 }

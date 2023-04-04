@@ -31,7 +31,7 @@ export const PreviewModal = () => {
           <Button type="primary" onClick={handleOk} >确定</Button>
         }
       >
-        <PrintLabel />
+        <PrintLabel schema={schema} />
       </Modal>
     </>
   );

@@ -19,7 +19,7 @@ export const getLabelInfo = (url: string, auth: string) => fetch(`${url}/asset/l
 export const updateLabelInfo = (url: string, auth: string, schema: Schema) => {
   const data = {
     labelType: '4',
-    labelField:JSON.stringify(schema),
+    labelField: JSON.stringify(schema),
     fontSize: '14',
     labelWidth: '100',
     labelHeight: '100',
@@ -30,4 +30,9 @@ export const updateLabelInfo = (url: string, auth: string, schema: Schema) => {
     headers: createHeaders(auth),
     body: JSON.stringify(data)
   })
-} 
+}
+
+export const printLabel = (url: string, auth: string, ids: string) => fetch(`${url}/asset/label/export/?downloadLogoIds=${ids}&downloadType=1`, {
+  method: 'GET',
+  headers: createHeaders(auth)
+})
