@@ -70,7 +70,8 @@ export const FieldSetter = () => {
             options={fieldList} />
         </Form.Item>
         {
-          position && <Form.Item label="打印位置" rules={[{ required: true }]}>
+          position &&
+          <Form.Item label="打印位置">
             <Select
               labelInValue={true}
               value={currentBlock!.props.position}

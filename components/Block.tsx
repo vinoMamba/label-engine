@@ -10,6 +10,7 @@ type Props = {
 }
 
 export const BlockItem: FC<Props> = (props) => {
+  const currentBlockId = useRef<number | null>(null)
   const scale = useScaleStore((state) => state.scale)
   const [schema, updateBlock, clearAllFocus, deleteBlock, setCurrentBlock] = useSchemaStore((state) => [
     state.schema,
@@ -39,6 +40,7 @@ export const BlockItem: FC<Props> = (props) => {
     e.stopPropagation()
     e.preventDefault()
     if (!props.block.focus) {
+      currentBlockId.current = props.block.id
       const newBlock = {
         ...props.block,
         focus: !props.block.focus,
@@ -130,12 +132,14 @@ export const BlockItem: FC<Props> = (props) => {
      * @param e
      */
   function blockDeleteKeyDown(e: KeyboardEvent) {
-    if (e.key === 'Delete' && props.block.focus) {
-      deleteBlock(props.block.id)
+    if (e.key === 'Delete' && currentBlockId.current) {
+      deleteBlock(currentBlockId.current)
       document.removeEventListener('keydown', blockDeleteKeyDown);
     }
   }
-  document.addEventListener('keydown', blockDeleteKeyDown);
+  useEffect(() => {
+    document.addEventListener('keydown', blockDeleteKeyDown);
+  }, [currentBlockId.current])
 
 
   return (
