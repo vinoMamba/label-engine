@@ -1,18 +1,33 @@
-import { fontSizes } from "@/shared"
+import { fontSizes, positions } from "@/shared"
 import { useSchemaStore } from "@/store/useSchemaStore"
 import { Form, Checkbox, Select } from "antd"
 import { useFieldListStore } from "@/store/useFieldListStore"
+import { useState } from "react"
 
 export const FieldSetter = () => {
+  const [position, setPosition] = useState(false)
   const [fieldList] = useFieldListStore((state) => [state.fieldList])
   const [currentBlock, updateBlock] = useSchemaStore((state) => [state.currentBlock, state.updateBlock])
   const handleFieldChange = (value: { value: string; label: React.ReactNode }) => {
+    //业务代码逻辑
+    if (value.label === '所在位置') {
+      setPosition(true)
+    }
     updateBlock({
       ...currentBlock!,
       props: {
         ...currentBlock!.props,
         fieldValue: value.value,
         fieldName: value.label
+      }
+    })
+  }
+  const handlePositionChange = (value: { value: string; label: React.ReactNode }) => {
+    updateBlock({
+      ...currentBlock!,
+      props: {
+        ...currentBlock!.props,
+        position: value.value
       }
     })
   }
@@ -54,6 +69,15 @@ export const FieldSetter = () => {
             onChange={handleFieldChange}
             options={fieldList} />
         </Form.Item>
+        {
+          position && <Form.Item label="打印位置" rules={[{ required: true }]}>
+            <Select
+              labelInValue={true}
+              value={currentBlock!.props.position}
+              options={positions}
+              onChange={handlePositionChange} />
+          </Form.Item>
+        }
         <Form.Item label="字段大小" rules={[{ required: true }]}>
           <Select
             labelInValue={true}

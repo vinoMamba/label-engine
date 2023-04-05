@@ -41,6 +41,7 @@ registerConfig.registerMaterial({
     hideTitle: false,
     fieldValue: '',
     fieldName: '',
+    position: 0
   }
 });
 
