@@ -14,7 +14,7 @@ import { PreviewModal } from '@/components/PreviewModal'
 import { GetServerSideProps } from 'next'
 import { useFieldListStore } from '@/store/useFieldListStore'
 import { getFieldList, getLabelInfo, updateLabelInfo } from '@/api'
-import { labelSchema } from '@/core/schema'
+import { labelSchema, validateSchema } from '@/core/schema'
 
 type Props = {
   fieldList: Record<string, any>[]
@@ -98,15 +98,19 @@ export default function Home(props: Props) {
     resetScale()
   }
   const save = async () => {
-    try {
-      const data = await updateLabelInfo(props.url, props.auth, schema)
-      if (data.status === 200) {
-        messageApi.success('保存成功')
-      } else {
+    if (validateSchema(schema)) {
+      try {
+        const data = await updateLabelInfo(props.url, props.auth, schema)
+        if (data.status === 200) {
+          messageApi.success('保存成功')
+        } else {
+          messageApi.error('保存失败')
+        }
+      } catch (error) {
         messageApi.error('保存失败')
       }
-    } catch (error) {
-      messageApi.error('保存失败')
+    } else {
+      messageApi.error('您的内容填写不完整，请填写后再进行保存！')
     }
   }
   return (
