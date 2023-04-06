@@ -189,7 +189,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (!auth) {
     return {
       props: {
-        fieldList: []
+        fieldList: [],
+        url: '',
+        auth: '',
+        labelField: labelSchema
       }
     }
   } else {

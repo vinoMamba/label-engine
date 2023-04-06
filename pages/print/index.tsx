@@ -7,6 +7,7 @@ import { printLabel } from "@/api"
 import { createLabel } from "@/core/print"
 import { labelInfo } from "@/types/type"
 import { toDataURL } from "qrcode"
+import Head from "next/head"
 
 type Props = {
   template: string
@@ -42,15 +43,33 @@ export default function Print(props: Props) {
     iframe.contentWindow?.print();
     document.body.removeChild(iframe);
   }
+  function closeTheWindow() {
+    if (navigator.userAgent.indexOf("Firefox") != -1 || navigator.userAgent.indexOf("Chrome") != -1) {
+      window.location.href = "about:blank";
+      window.close();
+    } else {
+      window.opener = null;
+      window.open("", "_self");
+      window.close();
+    }
+  }
   return (
-    <main className="h-screen w-screen pt-50 flex flex-col items-center">
-      <Image src={imgUrl} alt="" />
-      <p>请使用Chrome浏览器，以获得最佳打印效果</p>
-      <div className="mt-16 flex gap-8" >
-        <Button type="primary" onClick={printLabel}>打印</Button>
-        <Button>关闭</Button>
-      </div>
-    </main>
+    <>
+      <Head>
+        <title>Print</title>
+        <meta name="description" content="print label" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <main className="h-screen w-screen pt-50 flex flex-col items-center">
+        <Image src={imgUrl} alt="" />
+        <p className="text-#7dc1fd">请使用Chrome浏览器，以获得最佳打印效果</p>
+        <div className="mt-16 flex gap-8" >
+          <Button type="primary" onClick={printLabel}>打印</Button>
+          <Button onClick={closeTheWindow}>关闭</Button>
+        </div>
+      </main>
+    </>
   )
 }
 
